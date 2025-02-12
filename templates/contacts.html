@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ url_for('static', filename='css/contacts.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='images/contactsicon.png')}}" rel="shortcut icon">
+    <title>Contacts</title>
+</head>
+<body>
+    <h1>Команда разработчиков</h1>
+    <div class="container">
+        <div class="Masha">
+            <img src="{{ url_for('static', filename='images/masha.jpg')}}">
+            <figcaption>3D модель</figcaption>
+            <div class="description">
+                <p>Редикальцева Мария Антоновна</p>
+                <p>Ученица 10 "Т" класса<br>
+                школы №2098 имени героя Советского Союза Л.М Доватора</p>
+                <p>Telegram: @mariared00</p>
+            </div>
+        </div>
+        <div class="Misha">
+            <img src="{{ url_for('static', filename='images/misha.jpg')}}">
+            <figcaption>Frontend/Backend</figcaption>
+            <div class="description">
+                <p>Зборовский Михаил Романович</p>
+                <p>Ученик 10 "Т" класса<br>
+                школы №2098 имени героя Советского Союза Л.М Доватора</p>
+                <p>Telegram: @mixtik</p>
+            </div>
+        </div>
+        <div class="Kirill">
+            <img src="{{ url_for('static', filename='images/kirill.jpg')}}">
+            <figcaption>Arduino</figcaption>
+            <div class="description">
+                <p>Развенков Кирилл Дмитриевич</p>
+                <p>Ученик 10 "Т" класса<br>
+                школы №2098 имени героя Советского Союза Л.М Доватора</p>
+                <p>Telegram: @Kirga1</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

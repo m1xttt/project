@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ url_for('static', filename='css/login.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='images/registericon.png')}}" rel="shortcut icon">
+    <link href="{{ url_for('static', filename='css/flash.css')}}" rel="stylesheet" type="text/css">
+    <title>Login</title>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="flash-container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash-message {{ category }} show">
+                            <span>{{ message }}</span>
+                            <span class="close-btn" onclick="this.parentElement.style.display='none'">×</span>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+        <form action="/login" method="post">
+            <h2>Вход</h2>
+            <div class="input-field">
+                <input type="email" name="email" autocomplete="email" required>
+                <label>Введите свой email</label>
+            </div>
+            <div class="input-field">
+                <input type="password" class="password" name="password" autocomplete="current-password" required>
+                <label>Введите свой пароль</label>
+            </div>
+            <div class="forget">
+                <label for="remember">
+                    <input type="checkbox" id="remember">
+                    <p>Запомнить меня</p>
+                </label>
+                <a href="/newpassword" target="_blank">Забыли пароль?</a>
+            </div>
+            <button type="submit">Войти</button>
+            <div class="register">
+                <p>У вас нет аккаунта? <a href="/register" target="_blank">Регистрация</a></p>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
