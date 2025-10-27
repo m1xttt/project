@@ -1,49 +1,120 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="{{ url_for('static', filename='css/login.css')}}" rel="stylesheet" type="text/css">
-    <link href="{{ url_for('static', filename='images/registericon.png')}}" rel="shortcut icon">
-    <link href="{{ url_for('static', filename='css/flash.css')}}" rel="stylesheet" type="text/css">
-    <title>Login</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Вход</title>
+  <link rel="shortcut icon" href="{{ url_for('static', filename='images/registericon.png') }}">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @font-face {
+      font-family: 'CodecPro';
+      src: url('/static/fonts/CodecPro-ExtraLight.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'CodecPro';
+      src: url('/static/fonts/CodecPro-Regular.ttf') format('truetype');
+      font-weight: bold;
+    }
+    @font-face {
+      font-family: 'CodecPro';
+      src: url('/static/fonts/CodecPro-ExtraLightItalic.ttf') format('truetype');
+      font-style: italic;
+    }
+    * {
+      font-family: 'CodecPro', sans-serif;
+    }
+    ::selection {
+      background-color: gray;
+      color: white;
+    }
+    .main-btn {
+      position: relative;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 8px 0;
+      transition: color 0.3s ease;
+    }
+    .main-btn .main-underline {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 2px;
+      background: white;
+      width: 100%;
+      transform: scaleX(0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: block;
+      border-radius: 1px;
+    }
+    .main-btn:hover .main-underline {
+      transform: scaleX(0.5);
+      box-shadow: 0 0 15px 4px white;
+    }
+    .main-btn:hover {
+      color: white;
+    }
+    .underline {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+  </style>
 </head>
-<body>
-    <div class="wrapper">
-        <div class="flash-container">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <div class="flash-message {{ category }} show">
-                            <span>{{ message }}</span>
-                            <span class="close-btn" onclick="this.parentElement.style.display='none'">×</span>
-                        </div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
+<body class="min-h-[100vh] flex flex-col justify-center items-center bg-black relative overflow-x-hidden"
+      style="background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 2000 1500\'%3E%3Cdefs%3E%3CradialGradient id=\'a\' gradientUnits=\'objectBoundingBox\'%3E%3Cstop offset=\'0\' stop-color=\'%23EEEEEE\'/%3E%3Cstop offset=\'1\' stop-color=\'%23000000\'/%3E%3C/radialGradient%3E%3ClinearGradient id=\'b\' gradientUnits=\'userSpaceOnUse\' x1=\'0\' y1=\'750\' x2=\'1550\' y2=\'750\'%3E%3Cstop offset=\'0\' stop-color=\'%23777777\'/%3E%3Cstop offset=\'1\' stop-color=\'%23000000\'/%3E%3C/linearGradient%3E%3Cpath id=\'s\' fill=\'url(%23b)\' d=\'M1549.2 51.6c-5.4 99.1-20.2 197.6-44.2 293.6c-24.1 96-57.4 189.4-99.3 278.6c-41.9 89.2-92.4 174.1-150.3 253.3c-58 79.2-123.4 152.6-195.1 219c-71.7 66.4-149.6 125.8-232.2 177.2c-82.7 51.4-170.1 94.7-260.7 129.1c-90.6 34.4-184.4 60-279.5 76.3C192.6 1495 96.1 1502 0 1500c96.1-2.1 191.8-13.3 285.4-33.6c93.6-20.2 185-49.5 272.5-87.2c87.6-37.7 171.3-83.8 249.6-137.3c78.4-53.5 151.5-114.5 217.9-181.7c66.5-67.2 126.4-140.7 178.6-218.9c52.3-78.3 96.9-161.4 133-247.9c36.1-86.5 63.8-176.2 82.6-267.6c18.8-91.4 28.6-184.4 29.6-277.4c0.3-27.6 23.2-48.7 50.8-48.4s49.5 21.8 49.2 49.5c0 0.7 0 1.3-0.1 2L1549.2 51.6z\'/%3E%3Cg id=\'g\'%3E%3Cuse href=\'%23s\' transform=\'scale(0.12) rotate(60)\'/%3E%3Cuse href=\'%23s\' transform=\'scale(0.2) rotate(10)\'/%3E%3Cuse href=\'%23s\' transform=\'scale(0.25) rotate(40)\'/%3E%3Cuse href=\'%23s\' transform=\'scale(0.3) rotate(-20)\'/%3E%3Cuse href=\'%23s\' transform=\'scale(0.4) rotate(-30)\'/%3E%3Cuse href=\'%23s\' transform=\'scale(0.5) rotate(20)\'/%3E%3Cuse href=\'%23s\' transform=\'scale(0.6) rotate(60)\'/%3E%3Cuse href=\'%23s\' transform=\'scale(0.7) rotate(10)\'/%3E%3Cuse href=\'%23s\' transform=\'scale(0.835) rotate(-40)\'/%3E%3Cuse href=\'%23s\' transform=\'scale(0.9) rotate(40)\'/%3E%3Cuse href=\'%23s\' transform=\'scale(1.05) rotate(25)\'/%3E%3Cuse href=\'%23s\' transform=\'scale(1.2) rotate(8)\'/%3E%3Cuse href=\'%23s\' transform=\'scale(1.333) rotate(-60)\'/%3E%3Cuse href=\'%23s\' transform=\'scale(1.45) rotate(-30)\'/%3E%3Cuse href=\'%23s\' transform=\'scale(1.6) rotate(10)\'/%3E%3C/g%3E%3C/defs%3E%3Cg transform=\'rotate(0 0 0)\'%3E%3Cg transform=\'rotate(0 0 0)\'%3E%3Ccircle fill=\'url(%23a)\' r=\'3000\'/%3E%3Cg opacity=\'0.5\'%3E%3Ccircle fill=\'url(%23a)\' r=\'2000\'/%3E%3Ccircle fill=\'url(%23a)\' r=\'1800\'/%3E%3Ccircle fill=\'url(%23a)\' r=\'1700\'/%3E%3Ccircle fill=\'url(%23a)\' r=\'1651\'/%3E%3Ccircle fill=\'url(%23a)\' r=\'1450\'/%3E%3Ccircle fill=\'url(%23a)\' r=\'1250\'/%3E%3Ccircle fill=\'url(%23a)\' r=\'1175\'/%3E%3Ccircle fill=\'url(%23a)\' r=\'900\'/%3E%3Ccircle fill=\'url(%23a)\' r=\'750\'/%3E%3Ccircle fill=\'url(%23a)\' r=\'500\'/%3E%3Ccircle fill=\'url(%23a)\' r=\'380\'/%3E%3Ccircle fill=\'url(%23a)\' r=\'250\'/%3E%3C/g%3E%3Cg transform=\'rotate(0 0 0)\'%3E%3Cuse href=\'%23g\' transform=\'rotate(10)\'/%3E%3Cuse href=\'%23g\' transform=\'rotate(120)\'/%3E%3Cuse href=\'%23g\' transform=\'rotate(240)\'/%3E%3C/g%3E%3Ccircle fill-opacity=\'0.1\' fill=\'url(%23a)\' r=\'3000\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E'); background-attachment: fixed; background-size: cover;">
+
+  <main class="flex flex-1 flex-col justify-center items-center w-full py-8 px-2">
+    <div class="w-full max-w-[400px] relative z-10">
+      <div class="flash-container mb-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="flash-message {{ category }} show flex justify-between items-center bg-white/20 text-white px-4 py-2 rounded mb-2">
+                <span>{{ message }}</span>
+                <span class="close-btn cursor-pointer font-bold text-xl ml-4" onclick="this.parentElement.style.display='none'">×</span>
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+      </div>
+      <form action="/login" method="post" class="wrapper bg-white/10 border border-white/20 rounded-2xl shadow-2xl backdrop-blur-[20px] p-6 md:p-10 flex flex-col gap-2 transition-all duration-300">
+        <h2 class="text-3xl font-bold text-center text-white mb-6 tracking-wide">Вход</h2>
+        <div class="input-field relative border-b-2 border-white/30 my-5">
+          <input type="email" name="email" autocomplete="email" required
+                 class="w-full h-10 bg-transparent border-none outline-none text-white text-base px-2 peer" />
+          <label class="absolute left-0 top-1/2 -translate-y-1/2 text-white text-base pointer-events-none transition-all duration-300 peer-focus:text-[#d8f0fc] peer-focus:text-sm peer-focus:top-0 peer-valid:text-[#d8f0fc] peer-valid:text-sm peer-valid:top-0">
+            Введите свой email
+          </label>
         </div>
-        <form action="/login" method="post">
-            <h2>Вход</h2>
-            <div class="input-field">
-                <input type="email" name="email" autocomplete="email" required>
-                <label>Введите свой email</label>
-            </div>
-            <div class="input-field">
-                <input type="password" class="password" name="password" autocomplete="current-password" required>
-                <label>Введите свой пароль</label>
-            </div>
-            <div class="forget">
-                <label for="remember">
-                    <input type="checkbox" id="remember">
-                    <p>Запомнить меня</p>
-                </label>
-                <a href="/newpassword" target="_blank">Забыли пароль?</a>
-            </div>
-            <button type="submit">Войти</button>
-            <div class="register">
-                <p>У вас нет аккаунта? <a href="/register" target="_blank">Регистрация</a></p>
-            </div>
-        </form>
+        <div class="input-field relative border-b-2 border-white/30 my-5">
+          <input type="password" class="password w-full h-10 bg-transparent border-none outline-none text-white text-base px-2 peer" name="password" autocomplete="current-password" required />
+          <label class="absolute left-0 top-1/2 -translate-y-1/2 text-white text-base pointer-events-none transition-all duration-300 peer-focus:text-[#d8f0fc] peer-focus:text-sm peer-focus:top-0 peer-valid:text-[#d8f0fc] peer-valid:text-sm peer-valid:top-0">
+            Введите свой пароль
+          </label>
+        </div>
+        <div class="forget flex items-center justify-between my-6 text-white">
+          <label for="remember" class="flex items-center cursor-pointer">
+            <input type="checkbox" id="remember" class="accent-[#d8f0fc] mr-2" />
+            <span class="text-base">Запомнить меня</span>
+          </label>
+          <a href="/newpassword" target="_blank" class="text-[#d8f0fc] hover:underline text-base">Забыли пароль?</a>
+        </div>
+        <button type="submit"
+          class="main-btn px-6 py-3 text-white font-bold text-xl bg-transparent border-none cursor-pointer transition-colors duration-300 rounded-full border-2 border-transparent hover:border-white">
+          Войти
+          <span class="main-underline"></span>
+        </button>
+        <div class="register text-center mt-6 text-white">
+          <p>У вас нет аккаунта?
+            <a href="/register" target="_blank" class="text-[#d8f0fc] hover:underline">Регистрация</a>
+          </p>
+        </div>
+      </form>
     </div>
-</body>
-</html>
+  </main>
+
