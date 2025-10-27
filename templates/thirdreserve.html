@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Бронирование</title>
+  <link rel="shortcut icon" href="{{ url_for('static', filename='images/reservationicon.svg') }}">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+  <style>
+    @font-face {
+      font-family: 'CodecPro';
+      src: url('/static/fonts/CodecPro-ExtraLight.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'CodecPro';
+      src: url('/static/fonts/CodecPro-Regular.ttf') format('truetype');
+      font-weight: bold;
+    }
+    @font-face {
+      font-family: 'CodecPro';
+      src: url('/static/fonts/CodecPro-ExtraLightItalic.ttf') format('truetype');
+      font-style: italic;
+    }
+    * {
+      font-family: 'CodecPro', sans-serif;
+    }
+    ::selection {
+      background-color: gray;
+      color: white;
+    }
+    .main-btn {
+      position: relative;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 8px 0;
+      transition: color 0.3s ease;
+    }
+    .main-btn .main-underline {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 2px;
+      background: white;
+      width: 100%;
+      transform: scaleX(0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: block;
+      border-radius: 1px;
+    }
+    .main-btn:hover .main-underline {
+      transform: scaleX(0.5);
+      box-shadow: 0 0 15px 4px white;
+    }
+    .main-btn:hover {
+      color: white;
+    }
+    body{
+       background-image: url('{{ url_for("static", filename="images/thirdhousebackground.jpg") }}');
+        background-attachment: fixed;
+        background-size: cover;
+        background-position: center;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center relative overflow-x-hidden">
+  <div class="wrapper w-full max-w-md mx-auto rounded-2xl p-8 md:p-10 text-center bg-white/10 border border-white/20 backdrop-blur-[20px] shadow-2xl transition-all duration-300 relative z-10">
+    <div class="flash-container mb-4">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="flash-message {{ category }} show flex justify-between items-center bg-white/20 text-white px-4 py-2 rounded mb-2">
+              <span>{{ message }}</span>
+              <span class="close-btn cursor-pointer font-bold text-xl ml-4" onclick="this.parentElement.style.display='none'">×</span>
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+    </div>
+    <form action="/reservationNightview-Residence" method="post" class="flex flex-col gap-2">
+      <h2 class="text-3xl font-bold mb-6 text-white tracking-wide">Бронирование</h2>
+      <div class="input-field relative border-b-2 border-white/30 my-5">
+        <input type="text" name="fio" required autocomplete="off"
+               class="w-full h-10 bg-transparent border-none outline-none text-white text-base px-2 peer" />
+        <label
+          class="absolute left-0 top-1/2 -translate-y-1/2 text-white text-base pointer-events-none transition-all duration-300
+                 peer-focus:top-0 peer-focus:text-sm peer-valid:top-0 peer-valid:text-sm">
+          Введите ФИО
+        </label>
+      </div>
+      <h3 class="text-lg font-semibold text-white mb-2 mt-2">Данные карты для оплаты</h3>
+      <div class="input-field relative border-b-2 border-white/30 my-5">
+        <input type="text" id="number" name="card_number" required autocomplete="cc-number"
+               class="w-full h-10 bg-transparent border-none outline-none text-white text-base px-2 peer" />
+        <label class="absolute left-0 top-1/2 -translate-y-1/2 text-white text-base pointer-events-none transition-all duration-300 peer-focus:text-[#d8f0fc] peer-focus:text-sm peer-focus:top-0 peer-valid:text-[#d8f0fc] peer-valid:text-sm peer-valid:top-0">
+          Введите номер карты
+        </label>
+      </div>
+      <div class="input-field relative border-b-2 border-white/30 my-5">
+        <input type="text" id="term" name="term" required autocomplete="cc-exp"
+               class="w-full h-10 bg-transparent border-none outline-none text-white text-base px-2 peer" />
+        <label class="absolute left-0 top-1/2 -translate-y-1/2 text-white text-base pointer-events-none transition-all duration-300 peer-focus:text-[#d8f0fc] peer-focus:text-sm peer-focus:top-0 peer-valid:text-[#d8f0fc] peer-valid:text-sm peer-valid:top-0">
+          Срок
+        </label>
+      </div>
+      <div class="input-field relative border-b-2 border-white/30 my-5">
+        <input type="password" id="CVV" name="cvv" required autocomplete="cc-csc"
+               class="w-full h-10 bg-transparent border-none outline-none text-white text-base px-2 peer" />
+        <label class="absolute left-0 top-1/2 -translate-y-1/2 text-white text-base pointer-events-none transition-all duration-300 peer-focus:text-[#d8f0fc] peer-focus:text-sm peer-focus:top-0 peer-valid:text-[#d8f0fc] peer-valid:text-sm peer-valid:top-0">
+          CVV
+        </label>
+      </div>
+      <h3 class="text-lg font-semibold text-white mb-2 mt-2">Дата</h3>
+      <div class="input-field relative border-b-2 border-white/30 my-5">
+        <input type="date" name="date" required
+               class="w-full h-10 bg-transparent border-none outline-none text-white text-base px-2 peer" />
+      </div>
+      <button type="submit"
+        class="main-btn px-6 py-3 text-white font-bold text-xl bg-transparent border-none cursor-pointer transition-colors duration-300 rounded-full border-2 border-transparent hover:border-white">
+        Забронировать
+        <span class="main-underline"></span>
+      </button>
+    </form>
+  </div>
+
+  <script>
+    jQuery.noConflict();
+    jQuery(document).ready(function($) {
+      $("#term").mask("99/99");
+      $("#number").mask("9999 9999 9999 9999");
+      $("#CVV").mask("999");
+    });
+  </script>
+</body>
+</html>
