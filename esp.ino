@@ -1,9 +1,9 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
 
-const char* ssid = "Keenetic-104";  // Замените на имя вашей сети
-const char* password = "Misha310808";  // Замените на пароль вашей сети
-const char* server = "http://192.168.1.128:8000/get_numbers";  // Замените на IP вашего сервера
+const char* ssid = "";
+const char* password = "";
+const char* server = ""; 
 
 void setup() {
     Serial.begin(9600);
@@ -18,31 +18,28 @@ void setup() {
 
 void loop() {
     if (WiFi.status() == WL_CONNECTED) {
-        WiFiClient client;  // Создаем объект клиента
-        const char* host = "192.168.1.128";  // Замените на IP вашего сервера Flask
-        const int port = 8000;              // Порт сервера
+        WiFiClient client;
+        const char* host = "";  
+        const int port = 8000;              
 
         Serial.println("Connecting to server...");
 
-        // Пытаемся подключиться к серверу
         if (client.connect(host, port)) {
             Serial.println("Connected to server!");
 
-            // Отправляем HTTP GET-запрос
             client.println("GET /get_numbers HTTP/1.1");
             client.println("Host: " + String(host));
             client.println("Connection: close");
-            client.println();  // Пустая строка - конец заголовков
+            client.println(); 
 
-            // Ждем ответа
             while (client.connected() || client.available()) {
                 if (client.available()) {
                     String line = client.readStringUntil('\n');
-                    Serial.println(line);  // Выводим ответ построчно
+                    Serial.println(line); 
                 }
             }
 
-            client.stop();  // Закрываем соединение
+            client.stop(); 
             Serial.println("Connection closed");
         } else {
             Serial.println("Connection failed!");
