@@ -83,7 +83,7 @@
         {% endif %}
       {% endwith %}
     </div>
-    <form action="/reservationNightview-Residence" method="post" class="flex flex-col gap-2">
+    <form action="/reservationNightview-Residence" method="post" enctype="multipart/form-data" class="flex flex-col gap-2">
       <h2 class="text-3xl font-bold mb-6 text-white tracking-wide">Бронирование</h2>
       <div class="input-field relative border-b-2 border-white/30 my-5">
         <input type="text" name="fio" required autocomplete="off"
@@ -121,6 +121,19 @@
         <input type="date" name="date" required
                class="w-full h-10 bg-transparent border-none outline-none text-white text-base px-2 peer" />
       </div>
+      <div class="mt-4 mb-4">
+        <label class="flex items-center text-white cursor-pointer">
+          <input type="checkbox" name="enable_face_recognition" class="mr-2 w-4 h-4 cursor-pointer">
+          <span class="text-sm">Включить распознавание лица (опционально)</span>
+        </label>
+      </div>
+      <div id="face-photos-section" class="hidden mb-4">
+        <label class="block text-white text-sm mb-2">Загрузите фотографии для распознавания лица:</label>
+        <input type="file" name="face_photos" id="face_photos" multiple accept="image/png,image/jpeg,image/jpg,image/gif"
+               class="w-full text-white text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-white/20 file:text-white hover:file:bg-white/30 cursor-pointer">
+        <p class="text-white/70 text-xs mt-1">Можно загрузить несколько фотографий. На каждой должно быть одно лицо.</p>
+        <a href="/face-photos" class="text-white/80 hover:text-white text-xs underline mt-2 inline-block">Управление моими фотографиями</a>
+      </div>
       <button type="submit"
         class="main-btn px-6 py-3 text-white font-bold text-xl bg-transparent border-none cursor-pointer transition-colors duration-300 rounded-full border-2 border-transparent hover:border-white">
         Забронировать
@@ -128,13 +141,20 @@
       </button>
     </form>
   </div>
-
   <script>
     jQuery.noConflict();
     jQuery(document).ready(function($) {
       $("#term").mask("99/99");
       $("#number").mask("9999 9999 9999 9999");
       $("#CVV").mask("999");
+      
+      $('input[name="enable_face_recognition"]').change(function() {
+        if ($(this).is(':checked')) {
+          $('#face-photos-section').removeClass('hidden');
+        } else {
+          $('#face-photos-section').addClass('hidden');
+        }
+      });
     });
   </script>
 </body>
